@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="port" default="/dev/ttyUSB0"/>
+    <arg name="baud" default="921600" />
+    <arg name="id" default="1" />
+    <arg name="publish" default="true" />
+
+    <node pkg="adra_ros" type="adra_server" name="adra_server" output="screen">
+        <param name="port" value="$(arg port)" type="str"/>
+        <param name="baud" value="$(arg baud)" type="int"/>
+        <param name="id" value="$(arg id)" type="int"/>
+        <param name="publish" value="$(arg publish)" type="bool"/>
+    </node>
+</launch>
