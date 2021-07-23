@@ -1,6 +1,6 @@
 [TOC]
 # 1. Introduction
-   This repository provide a adra server to connect the real adra and controll it by send command, and publish the realtime data. Developing and testing environment is: Ubuntu 18.04 + ROS melodic.  
+   This repository provides an adra server to connect the real adra and controll it by sending command, and publish the realtime data. The developing and testing environment are: Ubuntu 18.04 + ROS melodic.  
 
 # 2. Getting started with 'adra_ros'
 
