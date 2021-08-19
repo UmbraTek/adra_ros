@@ -12,7 +12,7 @@
 ## 2.2 Obtain the package
 ```bash
 cd ~/catkin_ws/src
-git clone https://github.com/UmbraTek/adra_ros
+git clone https://github.com/UmbraTek/adra_ros.git
 ```
 ## 2.3 Install other dependent packages
 ```bash
