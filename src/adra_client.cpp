@@ -19,7 +19,8 @@ int main(int argc, char **argv) {
   srv.request.args.push_back("1");
   if (client.call(srv)) {
     int size = srv.response.rets.size();
-    ROS_INFO("rets size : %d ,ret[0]: %s ret[1]: %s", size, srv.response.rets[0].c_str(), srv.response.rets[1].c_str());
+    ROS_INFO("rets size : %d ,ret[0]: %s ret[1]: %s ret[2]: %s", size, srv.response.rets[0].c_str(),
+             srv.response.rets[1].c_str(), srv.response.rets[2].c_str());
   } else {
     ROS_ERROR("Failed to call service ");
     return 1;

@@ -131,7 +131,7 @@ int LinuxCvl::socket_init(char *local_ip, int port, int is_server) {
   local_addr.sin_port = htons(port);
   local_addr.sin_addr.s_addr = inet_addr(local_ip);
   ret = bind(sockfd, (struct sockaddr *)&local_addr, sizeof(local_addr));
-  PERRNO(ret, "[LinuxCvl]", " Error: bind");
+  PERRNO(ret, "[LinuxCvl]", " Error: socket_init bind");
 
   if (is_server) {
     ret = listen(sockfd, 10);
@@ -227,4 +227,38 @@ int LinuxCvl::socket_is_connect(int client_fp) {
     return 1;
   else
     return 0;
+}
+
+int LinuxCvl::socketudp_init(char *local_ip, int port, int is_server) {
+  int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+
+  if (is_server) {
+    struct sockaddr_in local_addr;
+    bzero(&local_addr, sizeof(local_addr));
+    local_addr.sin_family = AF_INET;
+    local_addr.sin_port = htons(port);
+    local_addr.sin_addr.s_addr = inet_addr(local_ip);
+    int ret = bind(sockfd, (struct sockaddr *)&local_addr, sizeof(local_addr));
+    PERRNO(ret, "[LinuxCvl]", " Error: socket_init_udp bind");
+  }
+
+  return sockfd;
+}
+
+int LinuxCvl::socketudp_send_data(int client_fp, struct sockaddr_in addr, unsigned char *data, int len) {
+  int ret = sendto(client_fp, data, len, 0, (struct sockaddr *)&addr, sizeof(addr));
+
+  if (ret != len) {
+    printf("[LinuxCvl] Error: udp socket_send_data\n");
+    return -1;
+  }
+  return 0;
+}
+
+struct sockaddr_in LinuxCvl::get_sockaddr(char *ip, int port) {
+  struct sockaddr_in addr;
+  addr.sin_family = AF_INET;
+  addr.sin_port = htons(port);
+  addr.sin_addr.s_addr = inet_addr(ip);
+  return addr;
 }

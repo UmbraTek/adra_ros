@@ -10,7 +10,9 @@
 #include <math.h>
 #include <sys/mman.h>
 #include <unistd.h>
+
 #include <cstring>
+#include <string>
 #include <thread>
 #include <vector>
 #ifdef linux
@@ -106,8 +108,8 @@ class RtTask {
   // 周期性循环运行的函数
   void loop_function(void) {
     prctl(PR_SET_NAME, name_.c_str());
-    stack_prefault(stack_size_);
-    setup_scheduler(priority_);
+    // stack_prefault(stack_size_);
+    // setup_scheduler(priority_);
 
     // timerFd 定时器
     int seconds = (int)period_s_;

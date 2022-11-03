@@ -28,6 +28,10 @@ class LinuxCvl {
   static int socket_send_data(int client_fp, unsigned char *data, int len);
   static int socket_is_connect(int client_fp);
 
+  static int socketudp_init(char *local_ip, int port, int is_server);
+  static struct sockaddr_in get_sockaddr(char *ip, int port);
+  static int socketudp_send_data(int client_fp, struct sockaddr_in addr, unsigned char *data, int len);
+
   // preempt
   static void rt_init(int priority, unsigned long long stack_max);
 

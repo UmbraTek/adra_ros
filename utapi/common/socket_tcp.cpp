@@ -5,10 +5,13 @@
  * Author: Jimy Zhang <jimy.zhang@umbratek.com> <jimy92@163.com>
  ============================================================================*/
 #include "socket_tcp.h"
+
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
+
 #include "linuxcvl.h"
+#include "print.h"
 
 SocketTcp::SocketTcp(char *ip, int port, int rxque_max, SerialDecode *decode, int rxlen_max, int priority) {
   fp_ = LinuxCvl::socket_init((char *)" ", 0, 0);
@@ -64,7 +67,9 @@ void SocketTcp::flush(int slave_id, int master_id, int rxlen_max) {
 
 int SocketTcp::write_frame(serial_stream_t *data) {
   if (is_error_) return -1;
-  return LinuxCvl::socket_send_data(fp_, data->data, data->len);
+  int ret = LinuxCvl::socket_send_data(fp_, data->data, data->len);
+  // Print::hex("[Sock TCP] write: ", data->data, data->len);
+  return ret;
 }
 
 int SocketTcp::read_frame(serial_stream_t *data, float timeout_s) {
@@ -88,9 +93,33 @@ void SocketTcp::recv_proc(void) {
     if (decode_ != NULL && is_decode_) {
       decode_->parse_put(ch, ret, rx_que_);
     } else {
-      serial_stream_.len = ret;
-      memcpy(serial_stream_.data, ch, serial_stream_.len);
-      rx_que_->push_back(&serial_stream_);
+      rx_stream_.len = ret;
+      memcpy(rx_stream_.data, ch, rx_stream_.len);
+      rx_que_->push_back(&rx_stream_);
+      // printf("[Sock TCP] recv: %d\n", ret);
     }
+
+    // Print::hex("[Sock TCP] recv: ", rx_stream_.data, rx_stream_.len);
   }
 }
+
+/*
+void SocketTcp::recv_proc(void) {
+  while (is_error_ == false) {
+    bzero(rx_stream_.data, rxlen_max_);
+    rx_stream_.len = recv(fp_, rx_stream_.data, rxlen_max_, 0);
+    if (rx_stream_.len <= 0) {
+      close(fp_);
+      printf("[SockeTcp] recv_proc exit\n");
+      pthread_exit(0);
+      return;
+    }
+
+    if (decode_ != NULL && is_decode_) {
+      decode_->parse_put(rx_stream_.data, rx_stream_.len, rx_que_);
+    } else {
+      rx_que_->push_back(&rx_stream_);
+    }
+    // Print::hex("[Sock TCP] recv: ", rx_stream_.data, rx_stream_.len);
+  }
+}*/

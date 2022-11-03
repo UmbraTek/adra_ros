@@ -6,10 +6,18 @@
  ============================================================================*/
 #include "adra/adra_api_base.h"
 
+/**
+ * Please see the manual: https://umbratek.com/wiki/en/#!adra/adra_api_c.md
+ *
+ * @param   void         void  [void description]
+ *
+ * @return  AdraApiBase        [return description]
+ */
 AdraApiBase::AdraApiBase(void) {}
 AdraApiBase::AdraApiBase(uint8_t bus_type, Socket* socket_fp, uint8_t servo_id) : ServoApiBase(bus_type, socket_fp, servo_id) {}
 AdraApiBase::~AdraApiBase(void) {}
 void AdraApiBase::adrainit(uint8_t bus_type, Socket* socket_fp, uint8_t servo_id) { servoinit(bus_type, socket_fp, servo_id); }
+int AdraApiBase::connect_net_module(int baud) { return connect_net(baud); }
 
 int AdraApiBase::get_uuid(int id, char uuid[24]) { return get_uuid_(id, uuid); }
 int AdraApiBase::get_sw_version(int id, char version[12]) { return get_sw_version_(id, version); }
@@ -27,12 +35,16 @@ int AdraApiBase::get_elec_ratio(int id, float* ratio) { return get_elec_ratio_(i
 int AdraApiBase::set_elec_ratio(int id, float ratio) { return set_elec_ratio_(id, ratio); }
 int AdraApiBase::get_motion_dir(int id, uint8_t* dir) { return get_motion_dir_(id, dir); }
 int AdraApiBase::set_motion_dir(int id, uint8_t dir) { return set_motion_dir_(id, dir); }
+int AdraApiBase::get_iwdg_cyc(int id, int* cyc) { return get_iwdg_cyc_(id, cyc); }
+int AdraApiBase::set_iwdg_cyc(int id, int cyc) { return set_iwdg_cyc_(id, cyc); }
 int AdraApiBase::get_temp_limit(int id, int8_t* min, int8_t* max) { return get_temp_limit_(id, min, max); }
 int AdraApiBase::set_temp_limit(int id, int8_t min, int8_t max) { return set_temp_limit_(id, min, max); }
 int AdraApiBase::get_volt_limit(int id, uint8_t* min, uint8_t* max) { return get_volt_limit_(id, min, max); }
 int AdraApiBase::set_volt_limit(int id, uint8_t min, uint8_t max) { return set_volt_limit_(id, min, max); }
 int AdraApiBase::get_curr_limit(int id, float* curr) { return get_curr_limit_(id, curr); }
 int AdraApiBase::set_curr_limit(int id, float curr) { return set_curr_limit_(id, curr); }
+int AdraApiBase::get_brake_delay(int id, uint16_t* ontime, uint16_t* offtime) { return get_brake_delay_(id, ontime, offtime); }
+int AdraApiBase::set_brake_delay(int id, uint16_t ontime, uint16_t offtime) { return set_brake_delay_(id, ontime, offtime); }
 
 int AdraApiBase::get_motion_mode(int id, uint8_t* mode) { return get_motion_mode_(id, mode); }
 int AdraApiBase::get_motion_enable(int id, uint8_t* able) { return get_motion_enable_(id, able); }
@@ -105,8 +117,17 @@ int AdraApiBase::set_tau_smooth_cyc(int id, uint8_t cyc) { return set_tau_smooth
 int AdraApiBase::get_tau_adrc_param(int id, uint8_t i, float* param) { return get_tau_adrc_param_(id, i, param); }
 int AdraApiBase::set_tau_adrc_param(int id, uint8_t i, float param) { return set_tau_adrc_param_(id, i, param); }
 
-int set_cpos_target(uint8_t sid, uint8_t eid, float* pos) { return set_cpos_target(sid, eid, pos); }
-int get_spostau_current(int id, int* num, float* pos, float* tau) { return get_spostau_current(id, num, pos, tau); }
-int get_cpostau_current(uint8_t sid, uint8_t eid, int* num, float* pos, float* tau, int* ret) {
-  return get_cpostau_current(sid, eid, num, pos, tau, ret);
+int AdraApiBase::set_cpos_target(uint8_t sid, uint8_t eid, float* pos) { return set_cpos_target_(sid, eid, pos); }
+int AdraApiBase::set_ctau_target(uint8_t sid, uint8_t eid, float* tau) { return set_ctau_target_(sid, eid, tau); }
+int AdraApiBase::set_cpostau_target(uint8_t sid, uint8_t eid, float* pos, float* tau) {
+  return set_cpostau_target_(sid, eid, pos, tau);
+}
+int AdraApiBase::set_cposvel_target(uint8_t sid, uint8_t eid, float* pos, float* vel) {
+  return set_cposvel_target_(sid, eid, pos, vel);
+}
+int AdraApiBase::get_spostau_current(uint8_t id, int* num, float* pos, float* tau) {
+  return get_spostau_current(id, num, pos, tau);
+}
+int AdraApiBase::get_cpostau_current(uint8_t sid, uint8_t eid, int* num, float* pos, float* tau, int* ret) {
+  return get_cpostau_current_(sid, eid, num, pos, tau, ret);
 }
