@@ -112,6 +112,18 @@ There are all server call  below:
 ```
 rosservice call /adra_server "connect" "['/dev/ttyUSB0','1','921600']" // first time you roslaunch the server,it will connect automatic, so you don't need to connec again.
 rosservice call /adra_server "disconnect" "[]"  
+
+rosservice call /adra_server "get_uuid" "['1']"               // get_uuid
+rosservice call /adra_server "get_sw_version" "['1']"         // get software version
+rosservice call /adra_server "get_hw_version" "['1']"         // get hardware version
+rosservice call /adra_server "get_multi_version" "['1']"      // get multi version
+rosservice call /adra_server "get_mech_ratio" "['1']"         // get mechanical ratio
+rosservice call /adra_server "set_com_baud" "['1']"           // set baud
+rosservice call /adra_server "reset_err" "['1']"              // reset err
+rosservice call /adra_server "restart_driver" "['1']"         // restart adra
+rosservice call /adra_server "erase_parm" "['1']"             // erase parm
+rosservice call /adra_server "saved_parm" "['1']"             // saved parm
+
 rosservice call /adra_server "into_motion_mode_pos" "['1']"   // into position mode
 rosservice call /adra_server "into_motion_mode_vel" "['1']"   // into velicity mode
 rosservice call /adra_server "into_motion_mode_tau" "['1']"   // into current mode
@@ -129,10 +141,15 @@ rosservice call /adra_server "get_brake_enable" "['1']"       // get brake enabl
 rosservice call /adra_server "set_pos_target" "['1','53.6']"  // set target position. position_value's unit is rad
 rosservice call /adra_server "get_pos_target" "['1']"         // get target position
 rosservice call /adra_server "get_pos_current" "['1']"        // get current position
+rosservice call /adra_server "pos_cal_zero" "['1']"           // pos cal zero
 
 rosservice call /adra_server "set_vel_target" "['1','15.6']"  // set target velocity. velocity_value's unit is rad/s
 rosservice call /adra_server "get_vel_target" "['1']"         // get target velocity
 rosservice call /adra_server "get_vel_current" "['1']"        // get current velocity
+rosservice call /adra_server "set_vel_limit_min" "['1']"      // set velocity limit min
+rosservice call /adra_server "get_vel_limit_min" "['1']"      // get velocity limit min
+rosservice call /adra_server "set_vel_limit_max" "['1']"      // set velocity limit max
+rosservice call /adra_server "get_vel_limit_max" "['1']"      // get velocity limit max
 
 rosservice call /adra_server "set_tau_target" "['1','1.0']"   // set target current. current_value's unit is A
 rosservice call /adra_server "get_tau_target" "['1']"         // get target current
