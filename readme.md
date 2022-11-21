@@ -118,7 +118,7 @@ rosservice call /adra_server "get_sw_version" "['1']"         // get software ve
 rosservice call /adra_server "get_hw_version" "['1']"         // get hardware version
 rosservice call /adra_server "get_multi_version" "['1']"      // get multi version
 rosservice call /adra_server "get_mech_ratio" "['1']"         // get mechanical ratio
-rosservice call /adra_server "set_com_baud" "['1']"           // set baud
+rosservice call /adra_server "set_com_baud" "['1',"921600"]"  // set baud
 rosservice call /adra_server "reset_err" "['1']"              // reset err
 rosservice call /adra_server "restart_driver" "['1']"         // restart adra
 rosservice call /adra_server "erase_parm" "['1']"             // erase parm
